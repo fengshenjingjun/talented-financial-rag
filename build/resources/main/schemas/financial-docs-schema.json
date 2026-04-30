@@ -1,0 +1,70 @@
+{
+  "collection_name": "financial_documents",
+  "description": "Financial document chunks with metadata for hybrid retrieval",
+  "fields": [
+    {
+      "name": "id",
+      "type": "INT64",
+      "is_primary": true,
+      "auto_id": true,
+      "description": "Auto-generated primary key"
+    },
+    {
+      "name": "vector",
+      "type": "FLOAT_VECTOR",
+      "dim": 1024,
+      "description": "BGE-M3 embedding (1024 dimensions)"
+    },
+    {
+      "name": "content",
+      "type": "VARCHAR",
+      "max_length": 2000,
+      "description": "Document chunk text content"
+    },
+    {
+      "name": "document_type",
+      "type": "VARCHAR",
+      "max_length": 50,
+      "description": "ANNUAL_REPORT | QUARTERLY_REPORT | REGULATORY_FILING | FINANCIAL_CONTRACT | MARKET_ANALYSIS | EARNINGS_CALL | PROSPECTUS"
+    },
+    {
+      "name": "company_ticker",
+      "type": "VARCHAR",
+      "max_length": 10,
+      "description": "Stock ticker symbol (e.g. AAPL, MSFT)"
+    },
+    {
+      "name": "filing_date",
+      "type": "VARCHAR",
+      "max_length": 20,
+      "description": "Document filing date (ISO 8601)"
+    },
+    {
+      "name": "source_url",
+      "type": "VARCHAR",
+      "max_length": 500,
+      "description": "Original document URL or file path"
+    },
+    {
+      "name": "access_level",
+      "type": "VARCHAR",
+      "max_length": 20,
+      "description": "Row-level security: PUBLIC | INTERNAL | RESTRICTED | CONFIDENTIAL"
+    }
+  ],
+  "index_params": {
+    "field_name": "vector",
+    "metric_type": "COSINE",
+    "index_type": "HNSW",
+    "params": {
+      "M": 16,
+      "efConstruction": 200
+    }
+  },
+  "search_params": {
+    "metric_type": "COSINE",
+    "params": {
+      "ef": 64
+    }
+  }
+}

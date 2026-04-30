@@ -1,0 +1,39 @@
+# Milvus standalone configuration
+# Tuned for financial RAG workload
+
+etcd:
+  endpoints:
+    - etcd:2379
+
+minio:
+  address: minio
+  port: 9000
+  accessKeyID: minioadmin
+  secretAccessKey: minioadmin
+  useSSL: false
+  bucketName: milvus-bucket
+  rootPath: files
+
+common:
+  storageType: remote
+
+# Index build parameters - matched to architecture spec
+# M=16, efConstruction=200 for HNSW
+queryNode:
+  gracefulStopTimeout: 30
+
+dataCoord:
+  segment:
+    maxSize: 512        # MB per segment
+    sealProportion: 0.25
+
+# Connection pool settings
+proxy:
+  maxTaskNum: 1024
+  timeTickInterval: 200
+
+# Log level
+log:
+  level: warn
+  file:
+    rootPath: /var/lib/milvus/logs
